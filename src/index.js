@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+document.getElementById('root').addEventListener('click',()=>{console.log("helloooooo")})
+
 root.render(
   <React.StrictMode>
     <App />
