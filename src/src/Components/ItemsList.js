@@ -1,8 +1,12 @@
 import Card from "@mui/material/Card";
 import { BASE_COLOR } from "../misc/colors";
-import { listItems } from "../misc/listItems";
+import { listItems  as list} from "../misc/listItems";
+import { useState } from "react";
 
-export function ItemsList() {
+export function ItemsList(props) {
+
+    const {items, setItems }=props;
+
   return (
     <>
       <div style={{ background: BASE_COLOR }}>
@@ -10,9 +14,7 @@ export function ItemsList() {
           <b>Project Folder 1</b>
         </div>
 
-        {listItems.map((item) => {
-          const imgLocation = item.imgLocation;
-
+        {items.map((item) => {
           return (
             <div style={{ padding: 10 }}>
               <Card>
@@ -21,6 +23,7 @@ export function ItemsList() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
+                    paddingRight:10
                   }}
                 >
                   <img
@@ -29,6 +32,7 @@ export function ItemsList() {
                     height={50}
                   />
                   <span>{item.title}</span>
+                  <span>updated {item.lastUpdated}d ago</span>
                 </div>
               </Card>
             </div>
