@@ -16,13 +16,15 @@ export function ItemsList(props) {
   return (
     <>
       <div style={{ background: BASE_COLOR }}>
-        <div>
-          <b>Project Folder 1</b>
+        <div style={{height:'25px' , fontSize:30 , marginBottom:10,fontFamily: 'Garamond, serif'}}>
+          <center>
+            List Items
+            </center>
         </div>
 
         {items.map((item) => {
           return (
-            <div style={{ padding: 10 }} >
+            <div style={{ padding: 10 }} key={item.title}>
               <Card>
                 <div
                   style={{
@@ -39,8 +41,9 @@ export function ItemsList(props) {
                     width={50}
                     height={50}
                   />
-                  <span>{item.title}</span>
-                  <span>updated {item.lastUpdated}d ago</span>  
+                  <span style={{fontFamily: 'Georgia, serif', fontSize:13}}><i>{item.title}</i></span>
+                  <span style={{fontFamily: 'Georgia, serif', fontSize:13}}><i>updated {item.lastUpdated}d ago</i></span>
+
                 </div>
               </Card>
             </div>
