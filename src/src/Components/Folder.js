@@ -22,11 +22,10 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
 
   function handleDrop(e, currentFolder) {
     e.preventDefault();
-    if (!e.dataTransfer.getData("ITEM_ON_DRAG1")) {
-      console.log("tttt", e.dataTransfer.getData("ITEM_ON_DRAG1"));
+    e.stopPropagation();
+
       const item = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG"));
 
-      // console.log("aa", folders);
       console.log("aa", currentFolder);
 
       currentFolder.items.push(item);
@@ -43,11 +42,8 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
 
       console.log("zzzzz", parent);
       console.log("6", e);
-      e.dataTransfer.setData("ITEM_ON_DRAG1", "heedeeee");
-      console.log("ttt3t", e.dataTransfer.getData("ITEM_ON_DRAG1"));
-
       console.log("7", e);
-    }
+    
   }
 
   return (
