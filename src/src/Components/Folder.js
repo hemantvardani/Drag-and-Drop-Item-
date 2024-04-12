@@ -73,7 +73,7 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
           />
 
           <span style={{ fontFamily: "Georgia, serif", fontSize: 15 }}>
-            {folderData.title}
+            {`${folderData.title} (${folderData.items.length})`}
           </span>
         </div>
         <div style={{ marginTop: 3, paddingLeft: 30 }}>
