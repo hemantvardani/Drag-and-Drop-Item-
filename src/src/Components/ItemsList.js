@@ -24,7 +24,7 @@ export function ItemsList(props) {
 
         {items.map((item) => {
           return (
-            <div style={{ padding: 10 }} key={item.title}>
+            <div style={{ padding: 10, marginBottom:-10 }} key={item.title}>
               <Card>
                 <div
                   style={{

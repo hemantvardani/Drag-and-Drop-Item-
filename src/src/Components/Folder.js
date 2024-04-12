@@ -48,19 +48,48 @@ export function Folder({ folder }) {
           onClick={() => setIsCollapse(!isCollapse)}
          
         >
-          {isCollapse ? <FaAnglesRight /> : <FaAnglesDown />}
-          <span>{folder.title}</span>
+         <span style={{marginRight:10}}>
+         {isCollapse ? <FaAnglesRight /> : <FaAnglesDown />}
+          </span> 
+         
+          <img
+                    src={ isCollapse ? require("./../Assests/closeFolder.png") :  require("./../Assests/openFolder.png") }
+                    width={15}
+                    height={15}
+                    
+                  />
+
+
+          <span style={{ fontFamily: 'Georgia, serif', fontSize:20 }} >
+          
+            {folder.title}
+            
+            </span>
         </div>
+        <div style={{marginTop:3}}>
+
         {!isCollapse &&
-          folder.items.map((item) => {
-            return (
-              <>
-                <div key={`${item.title}`} style={{ paddingLeft: 30 }}>
-                  {item.title}
-                </div>
-              </>
-            );
-          })}
+        
+        folder.items.map((item) => {
+          return (
+            <>
+             
+              <div key={`${item.title}`} style={{  paddingLeft: 50,fontFamily: 'Georgia, serif', fontSize:15 }}>
+              <img
+                  src={require("./../Assests/icon1.png")}
+                  width={10}
+                  height={10}
+                />
+                {item.title}
+              </div>
+            </>
+          );
+        })
+
+       
+        }
+        </div>
+       
       </div>
     </>
   );
