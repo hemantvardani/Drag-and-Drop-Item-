@@ -5,7 +5,7 @@ import { listContext } from "../../App";
 export function Folder({ parent, setParent, itemIndexInParent }) {
   const [isCollapse, setIsCollapse] = useState(true);
   const [folderData, setFolderData] = useState(parent.items[itemIndexInParent]);
-
+ 
   const { items, setItems } = useContext(listContext);
 
   useEffect(() => {
@@ -14,9 +14,12 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
     setParent(dup);
   }, [folderData]);
 
+  
+
   function handleDragOver(e, folder) {
     e.preventDefault();
-    console.log("dd");
+    e.stopPropagation();
+    console.log("dd",folder);
     if (isCollapse) setIsCollapse(false);
   }
 
@@ -40,10 +43,6 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
       setItems(updatedItemList);
       console.log("lo", JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
 
-      console.log("zzzzz", parent);
-      console.log("6", e);
-      console.log("7", e);
-    
   }
 
   return (
@@ -53,14 +52,13 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
           handleDragOver(e, folderData);
         }}
         onDrop={(e) => handleDrop(e, folderData)}
-        style={{ borderWidth: "1px", borderStyle: "solid" }}
       >
         <div
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
           onClick={() => setIsCollapse(!isCollapse)}
         >
           <span style={{ marginRight: 2 }}>
-            {isCollapse ? <FaAnglesRight /> : <FaAnglesDown />}
+            {isCollapse ? <FaAnglesRight size={13} /> : <FaAnglesDown  size={13} />}
           </span>
 
           <img
@@ -88,17 +86,25 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
                       setParent={setFolderData}
                       itemIndexInParent={index}
                     />
+
                   ) : (
                     <div
                       key={`${item.title}`}
-                      style={{ fontFamily: "Georgia, serif", fontSize: 15 }}
+                      style={{ marginTop: 3, fontFamily: "Georgia, serif", fontSize: 15, display:'flex',alignItems:'center' }}
                     >
+                      <span  style={{ marginRight:2 }}>
                       <img
-                        src={require("./../Assests/icon1.png")}
-                        width={10}
-                        height={10}
+                        src={require("./../Assests/fileIcon.png")}
+                        width={17}
+                        height={17}
+                      
                       />
-                      {item.title}
+                        </span>
+                        
+                      
+                     <span>
+                       {item.title}
+                      </span>
                     </div>
                   )}
                 </>
