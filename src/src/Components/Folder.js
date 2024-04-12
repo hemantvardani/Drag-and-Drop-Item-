@@ -5,7 +5,7 @@ import { listContext } from "../../App";
 export function Folder({ parent, setParent, itemIndexInParent }) {
   const [isCollapse, setIsCollapse] = useState(true);
   const [folderData, setFolderData] = useState(parent.items[itemIndexInParent]);
- 
+
   const { items, setItems } = useContext(listContext);
 
   useEffect(() => {
@@ -14,12 +14,10 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
     setParent(dup);
   }, [folderData]);
 
-  
-
   function handleDragOver(e, folder) {
     e.preventDefault();
     e.stopPropagation();
-    console.log("dd",folder);
+    console.log("dd", folder);
     if (isCollapse) setIsCollapse(false);
   }
 
@@ -27,22 +25,21 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
     e.preventDefault();
     e.stopPropagation();
 
-      const item = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG"));
+    const item = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG"));
 
-      console.log("aa", currentFolder);
+    console.log("aa", currentFolder);
 
-      currentFolder.items.push(item);
-      const dupFolderTree = { ...parent };
-      dupFolderTree.items[itemIndexInParent] = currentFolder;
-      setParent(dupFolderTree);
+    currentFolder.items.push(item);
+    const dupFolderTree = { ...parent };
+    dupFolderTree.items[itemIndexInParent] = currentFolder;
+    setParent(dupFolderTree);
 
-      const updatedItemList = items.filter((i) => {
-        return i.title != item.title;
-      });
+    const updatedItemList = items.filter((i) => {
+      return i.title != item.title;
+    });
 
-      setItems(updatedItemList);
-      console.log("lo", JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
-
+    setItems(updatedItemList);
+    console.log("lo", JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
   }
 
   return (
@@ -58,7 +55,11 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
           onClick={() => setIsCollapse(!isCollapse)}
         >
           <span style={{ marginRight: 2 }}>
-            {isCollapse ? <FaAnglesRight size={13} /> : <FaAnglesDown  size={13} />}
+            {isCollapse ? (
+              <FaAnglesRight size={13} />
+            ) : (
+              <FaAnglesDown size={13} />
+            )}
           </span>
 
           <img
@@ -86,25 +87,26 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
                       setParent={setFolderData}
                       itemIndexInParent={index}
                     />
-
                   ) : (
                     <div
                       key={`${item.title}`}
-                      style={{ marginTop: 3, fontFamily: "Georgia, serif", fontSize: 15, display:'flex',alignItems:'center' }}
+                      style={{
+                        marginTop: 3,
+                        fontFamily: "Georgia, serif",
+                        fontSize: 15,
+                        display: "flex",
+                        alignItems: "center",
+                      }}
                     >
-                      <span  style={{ marginRight:2 }}>
-                      <img
-                        src={require("./../Assests/fileIcon.png")}
-                        width={17}
-                        height={17}
-                      
-                      />
-                        </span>
-                        
-                      
-                     <span>
-                       {item.title}
+                      <span style={{ marginRight: 2 }}>
+                        <img
+                          src={require("./../Assests/fileIcon.png")}
+                          width={17}
+                          height={17}
+                        />
                       </span>
+
+                      <span>{item.title}</span>
                     </div>
                   )}
                 </>
