@@ -6,7 +6,7 @@ export function FolderTree(props) {
   const { folders, setFolders } = props;
 
   useEffect(() => {
-    console.log("zzzzz", folders);
+    // console.log("zzzzz", folders);
   }, [folders]);
 
   return (
@@ -23,18 +23,17 @@ export function FolderTree(props) {
           <center>Folder Tree</center>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          {(console.log("1111", folders) || 1) &&
-            folders.items.map((folder, index) => {
-              return (
-                <div className="per-folder" key={folder.title}>
-                  <Folder
-                    parent={folders}
-                    setParent={setFolders}
-                    itemIndexInParent={index}
-                  />
-                </div>
-              );
-            })}
+          {folders.items.map((folder, index) => {
+            return (
+              <div className="per-folder" key={folder.title}>
+                <Folder
+                  parent={folders}
+                  setParent={setFolders}
+                  itemIndexInParent={index}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </>
