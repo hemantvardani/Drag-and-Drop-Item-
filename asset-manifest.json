@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/Drag-and-Drop-Item-/static/css/main.6f8a16cc.css",
+    "main.js": "/Drag-and-Drop-Item-/static/js/main.2adc4ce5.js",
+    "static/js/453.29f9380f.chunk.js": "/Drag-and-Drop-Item-/static/js/453.29f9380f.chunk.js",
+    "static/media/openFolder.png": "/Drag-and-Drop-Item-/static/media/openFolder.32972e64af16608fb143.png",
+    "static/media/closeFolder.png": "/Drag-and-Drop-Item-/static/media/closeFolder.6e3a17bba7bde6130dc4.png",
+    "static/media/fileIcon.png": "/Drag-and-Drop-Item-/static/media/fileIcon.840d835451bb23f7433a.png",
+    "static/media/icons8-file-94.png": "/Drag-and-Drop-Item-/static/media/icons8-file-94.394c4ca3ba2a1b23405f.png",
+    "index.html": "/Drag-and-Drop-Item-/index.html",
+    "main.6f8a16cc.css.map": "/Drag-and-Drop-Item-/static/css/main.6f8a16cc.css.map",
+    "main.2adc4ce5.js.map": "/Drag-and-Drop-Item-/static/js/main.2adc4ce5.js.map",
+    "453.29f9380f.chunk.js.map": "/Drag-and-Drop-Item-/static/js/453.29f9380f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6f8a16cc.css",
+    "static/js/main.2adc4ce5.js"
+  ]
+}
