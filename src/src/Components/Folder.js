@@ -17,7 +17,7 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
   function handleDragOver(e, folder) {
     e.preventDefault();
     e.stopPropagation();
-    console.log("dd", folder);
+    // console.log("dd", folder);
     if (isCollapse) setIsCollapse(false);
   }
 
@@ -27,7 +27,7 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
 
     const item = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG"));
 
-    console.log("aa", currentFolder);
+    // console.log("aa", currentFolder);
 
     currentFolder.items.push(item);
     const dupFolderTree = { ...parent };
@@ -39,7 +39,7 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
     });
 
     setItems(updatedItemList);
-    console.log("lo", JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
+    // console.log("lo", JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
   }
 
   return (
@@ -80,16 +80,17 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
           {!isCollapse &&
             folderData.items.map((item, index) => {
               return (
-                <>
+                <div key={item.title}>
                   {item.type === "FOLDER" ? (
-                    <Folder
-                      parent={folderData}
-                      setParent={setFolderData}
-                      itemIndexInParent={index}
-                    />
+                    <div>
+                      <Folder
+                        parent={folderData}
+                        setParent={setFolderData}
+                        itemIndexInParent={index}
+                      />
+                    </div>
                   ) : (
                     <div
-                      key={`${item.title}`}
                       style={{
                         marginTop: 3,
                         fontFamily: "Georgia, serif",
@@ -109,7 +110,7 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
                       <span>{item.title}</span>
                     </div>
                   )}
-                </>
+                </div>
               );
             })}
         </div>

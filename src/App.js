@@ -16,17 +16,28 @@ function App() {
 
   return (
     <>
-      <div style={{ background: BASE_COLOR, height: "100vh" }}>
+      <div
+        style={{
+          background: BASE_COLOR,
+          minHeight: "100vh",
+          minWidth: "400px",
+        }}
+      >
         <Header />
         <listContext.Provider value={{ items, setItems, folders, setFolders }}>
-          <div style={{ paddingLeft: 100, paddingRight: 100, paddingTop: 50 }}>
-            <Grid container spacing={4} width={"100%"}>
-              <Grid item={true} width={"30%"}>
+          <div style={{ paddingTop: 50 }}>
+            <Grid
+              container
+              spacing={4}
+              maxWidth={"1100px"}
+              justifyContent={"center"}
+            >
+              <Grid item={true} xs={10} md={4}>
                 <div style={{ paddingLeft: 40 }}>
                   <FolderTree folders={folders} setFolders={setFolders} />
                 </div>
               </Grid>
-              <Grid item={true} width={"50%"}>
+              <Grid item={true} xs={10} md={6}>
                 <ItemsList items={items} setItems={setItems} />
               </Grid>
             </Grid>
