@@ -12,7 +12,7 @@ export const listContext = createContext();
 
 function App() {
   const [items, setItems] = useState([...listItems]);
-  const [folders, setFolders] = useState([...listFolder]);
+  const [folders, setFolders] = useState({...listFolder});
 
   return (
     <>
