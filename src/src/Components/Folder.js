@@ -1,95 +1,118 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaAnglesRight, FaAnglesDown } from "react-icons/fa6";
 import { listContext } from "../../App";
 
-export function Folder({ folder }) {
+export function Folder({ parent, setParent, itemIndexInParent }) {
   const [isCollapse, setIsCollapse] = useState(true);
+  const [folderData, setFolderData] = useState(parent.items[itemIndexInParent]);
 
-  const { items, setItems, folders, setFolders } = useContext(listContext);
+  const { items, setItems } = useContext(listContext);
+
+  useEffect(() => {
+    const dup = { ...parent };
+    dup.items[itemIndexInParent] = folderData;
+    setParent(dup);
+  }, [folderData]);
 
   function handleDragOver(e, folder) {
     e.preventDefault();
-    console.log("dd" + JSON.stringify(folders));
+    e.stopPropagation();
+    console.log("dd", folder);
     if (isCollapse) setIsCollapse(false);
   }
 
   function handleDrop(e, currentFolder) {
     e.preventDefault();
-    const item = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG"));
-    console.log("aa", folders);
+    e.stopPropagation();
 
-    const updatedFolderTree = folders.map((f) => {
-      if (f.title === currentFolder.title) {
-        f.items.push(item);
-      }
-      return f;
+    const item = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG"));
+
+    console.log("aa", currentFolder);
+
+    currentFolder.items.push(item);
+    const dupFolderTree = { ...parent };
+    dupFolderTree.items[itemIndexInParent] = currentFolder;
+    setParent(dupFolderTree);
+
+    const updatedItemList = items.filter((i) => {
+      return i.title != item.title;
     });
 
-    console.log(updatedFolderTree);
-
-    setFolders(updatedFolderTree);
-
-    const updatedItemList= items.filter(i=>{
-        return (i.title!=item.title)
-    })
-
-    setItems(updatedItemList)
+    setItems(updatedItemList);
     console.log("lo", JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
   }
 
   return (
     <>
-      <div  onDragOver={(e) => {
-            handleDragOver(e, folder);
-          }}
-          onDrop={(e) => handleDrop(e, folder)}>
+      <div
+        onDragOver={(e) => {
+          handleDragOver(e, folderData);
+        }}
+        onDrop={(e) => handleDrop(e, folderData)}
+      >
         <div
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
           onClick={() => setIsCollapse(!isCollapse)}
-         
         >
-         <span style={{marginRight:10}}>
-         {isCollapse ? <FaAnglesRight /> : <FaAnglesDown />}
-          </span> 
-         
+          <span style={{ marginRight: 2 }}>
+            {isCollapse ? (
+              <FaAnglesRight size={13} />
+            ) : (
+              <FaAnglesDown size={13} />
+            )}
+          </span>
+
           <img
-                    src={ isCollapse ? require("./../Assests/closeFolder.png") :  require("./../Assests/openFolder.png") }
-                    width={15}
-                    height={15}
-                    
-                  />
+            src={
+              isCollapse
+                ? require("./../Assests/closeFolder.png")
+                : require("./../Assests/openFolder.png")
+            }
+            width={15}
+            height={15}
+          />
 
-
-          <span style={{ fontFamily: 'Georgia, serif', fontSize:20 }} >
-          
-            {folder.title}
-            
-            </span>
+          <span style={{ fontFamily: "Georgia, serif", fontSize: 15 }}>
+            {folderData.title}
+          </span>
         </div>
-        <div style={{marginTop:3}}>
+        <div style={{ marginTop: 3, paddingLeft: 30 }}>
+          {!isCollapse &&
+            folderData.items.map((item, index) => {
+              return (
+                <>
+                  {item.type === "FOLDER" ? (
+                    <Folder
+                      parent={folderData}
+                      setParent={setFolderData}
+                      itemIndexInParent={index}
+                    />
+                  ) : (
+                    <div
+                      key={`${item.title}`}
+                      style={{
+                        marginTop: 3,
+                        fontFamily: "Georgia, serif",
+                        fontSize: 15,
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span style={{ marginRight: 2 }}>
+                        <img
+                          src={require("./../Assests/fileIcon.png")}
+                          width={17}
+                          height={17}
+                        />
+                      </span>
 
-        {!isCollapse &&
-        
-        folder.items.map((item) => {
-          return (
-            <>
-             
-              <div key={`${item.title}`} style={{  paddingLeft: 50,fontFamily: 'Georgia, serif', fontSize:15 }}>
-              <img
-                  src={require("./../Assests/icon1.png")}
-                  width={10}
-                  height={10}
-                />
-                {item.title}
-              </div>
-            </>
-          );
-        })
-
-       
-        }
+                      <span>{item.title}</span>
+                    </div>
+                  )}
+                </>
+              );
+            })}
         </div>
-       
       </div>
     </>
   );
