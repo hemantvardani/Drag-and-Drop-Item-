@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaAnglesRight, FaAnglesDown } from "react-icons/fa6";
-import { listContext } from "../../App";
+// import { listContext } from "../../App";
 
 export function Folder({ parent, setParent, itemIndexInParent }) {
   const [isCollapse, setIsCollapse] = useState(true);
   const [folderData, setFolderData] = useState(parent.items[itemIndexInParent]);
 
-  const { items, setItems } = useContext(listContext);
+  // const { items, setItems } = useContext(listContext);
 
   useEffect(() => {
     const dup = { ...parent };
@@ -21,24 +21,38 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
     if (isCollapse) setIsCollapse(false);
   }
 
+  // function findAndDelete(folder_,itemTobeDeleted){
+
+  //   folder_.items.forEach(element => {
+  //     if(element.type==='FOLDER')
+  //     {
+
+  //     }
+  //   });
+  // }
+
+
   function handleDrop(e, currentFolder) {
     e.preventDefault();
     e.stopPropagation();
 
     const item = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG"));
+    const itemOriginalFolder = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG_ORIGINAL_FOLDER"));
+
 
     // console.log("aa", currentFolder);
 
+    //add item to new folder.
     currentFolder.items.push(item);
     const dupFolderTree = { ...parent };
     dupFolderTree.items[itemIndexInParent] = currentFolder;
     setParent(dupFolderTree);
+ 
+    //delete from old folder.
+    // const originalFolderTrace= folder_.items.find((f)=>{f.title===itemOriginalFolder.title})
+    // findAndDelete(originalFolderTrace,item);
 
-    const updatedItemList = items.filter((i) => {
-      return i.title != item.title;
-    });
 
-    setItems(updatedItemList);
     // console.log("lo", JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
   }
 

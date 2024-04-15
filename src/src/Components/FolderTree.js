@@ -31,7 +31,7 @@ export function FolderTree(props) {
                 marginBottom: '15px',
                 padding: '10px',
             } } key={folder.title}
-            onClick={()=>setSelectedFolder(folder.title)}>
+            onClick={()=>(setSelectedFolder(folder.title))}>
                 <Folder
                   parent={folders}
                   setParent={setFolders}

@@ -2,24 +2,40 @@ import Card from "@mui/material/Card";
 import { BASE_COLOR } from "../misc/colors";
 
 export function ItemsList(props) {
-  const { items, setItems , selectedFolder } = props;
+  const { folders, selectedFolder } = props;
 
   const dragImage = new Image();
   dragImage.src = require("../Assests/icons8-file-94.png"); // specify the path to your image
 
   function handleDragStart(e, item) {
     e.dataTransfer.setData("ITEM_ON_DRAG", JSON.stringify(item));
+    e.dataTransfer.setData("ITEM_ON_DRAG_ORIGINAL_FOLDER", JSON.stringify(selectedFolder));
     e.dataTransfer.setDragImage(dragImage, 10, 10);
     // console.log(JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
     console.log(e);
   }
 
+  function showFolderCorrespondingItems(folder_) {
+    console.log(folder_,"TT");
+    let list = [];
+    folder_.items.forEach((element) => {
+      if (element.type === "FOLDER") {
+        list = [...list, ...showFolderCorrespondingItems(element)];
+      } else {
+        list.push(element);
+      }
+    });
+    return list;
+  }
 
-  // function(folderName)
-  // {
 
-  // }
-
+  const selectedFolderDetails = folders.items.find((f) => {
+    console.log(selectedFolder,"ccc")
+     return f.title === selectedFolder;
+  });
+  console.log(selectedFolderDetails,"ww")
+  const items_ = showFolderCorrespondingItems(selectedFolderDetails);
+  console.log(items_,"zz")
 
   return (
     <>
@@ -35,9 +51,8 @@ export function ItemsList(props) {
           <center>{selectedFolder}</center>
         </div>
 
-
-
-        {items.map((item) => {
+        {items_.map((item) => {
+          console.log(item, "hhhh121")
           return (
             <div style={{ padding: 10, marginBottom: -10 }} key={item.title}>
               <Card>
