@@ -13,6 +13,7 @@ export const listContext = createContext();
 function App() {
   const [items, setItems] = useState([...listItems]);
   const [folders, setFolders] = useState({ ...listFolder });
+  const [selectedFolder, setSelectedFolder]= useState(null);
 
   return (
     <>
@@ -34,11 +35,11 @@ function App() {
             >
               <Grid item={true} xs={10} md={4}>
                 <div style={{ paddingLeft: 40 }}>
-                  <FolderTree folders={folders} setFolders={setFolders} />
+                  <FolderTree folders={folders} setFolders={setFolders} setSelectedFolder={setSelectedFolder} selectedFolder={selectedFolder} />
                 </div>
               </Grid>
               <Grid item={true} xs={10} md={6}>
-                <ItemsList items={items} setItems={setItems} />
+                <ItemsList items={items} setItems={setItems} selectedFolder={selectedFolder} />
               </Grid>
             </Grid>
           </div>

@@ -2,7 +2,7 @@ import Card from "@mui/material/Card";
 import { BASE_COLOR } from "../misc/colors";
 
 export function ItemsList(props) {
-  const { items, setItems } = props;
+  const { items, setItems , selectedFolder } = props;
 
   const dragImage = new Image();
   dragImage.src = require("../Assests/icons8-file-94.png"); // specify the path to your image
@@ -13,6 +13,13 @@ export function ItemsList(props) {
     // console.log(JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
     console.log(e);
   }
+
+
+  // function(folderName)
+  // {
+
+  // }
+
 
   return (
     <>
@@ -25,8 +32,10 @@ export function ItemsList(props) {
             fontFamily: "Garamond, serif",
           }}
         >
-          <center>List Items</center>
+          <center>{selectedFolder}</center>
         </div>
+
+
 
         {items.map((item) => {
           return (
