@@ -2,17 +2,23 @@ import { useEffect, useState } from "react";
 import { FaAnglesRight, FaAnglesDown } from "react-icons/fa6";
 // import { listContext } from "../../App";
 
-export function Folder({ parent, setParent, itemIndexInParent }) {
+export function Folder({ folders , setFolders , currentFolder_ }) {
+  const [currentFolder,setCurrentFolder] = useState(currentFolder_)
   const [isCollapse, setIsCollapse] = useState(true);
-  const [folderData, setFolderData] = useState(parent.items[itemIndexInParent]);
+  // const [folderData, setFolderData] = useState(parent.items[itemIndexInParent]);
 
   // const { items, setItems } = useContext(listContext);
 
-  useEffect(() => {
-    const dup = { ...parent };
-    dup.items[itemIndexInParent] = folderData;
-    setParent(dup);
-  }, [folderData]);
+  // useEffect(() => {
+  //   const dup = { ...parent };
+  //   dup.items[itemIndexInParent] = folderData;
+  //   setParent(dup);
+  // }, [folderData]);
+
+  useEffect(()=>{
+    console.log(currentFolder_,"ppp")
+    setCurrentFolder(currentFolder_)
+  },[currentFolder_] )
 
   function handleDragOver(e, folder) {
     e.preventDefault();
@@ -21,34 +27,103 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
     if (isCollapse) setIsCollapse(false);
   }
 
-  // function findAndDelete(folder_,itemTobeDeleted){
+  function findAndDelete(folder,id){
+    const items=[]
+    folder.items.forEach(element => {
 
-  //   folder_.items.forEach(element => {
-  //     if(element.type==='FOLDER')
-  //     {
+      if(element.type==='FOLDER')
+      {
+         items.push( findAndDelete(element,id))
+      }
+      else{
+        if(element.id!==id){
+          items.push(element)
+        }
+      }
+    });
 
-  //     }
-  //   });
-  // }
 
+    folder.items=items;
+    return folder;
+  }
+
+  function findAndAdd(folder,id,item)
+  {
+    
+    if(folder.id===id){
+      folder.items.push(item);
+      return folder;
+    }
+
+    const items=[];
+    folder.items.forEach((element)=>{
+      if(element.type === 'FOLDER'){
+         items.push(findAndAdd(element,id,item))
+      }
+      else{
+        items.push(element)
+      }
+    })
+    folder.items=items;
+    return folder;
+  }
+
+  function checkDupItem(itemFolder,item)
+  {
+    console.log(itemFolder,"ll")
+    for(let f of itemFolder.items){
+      if(f.type==='ITEM'){ 
+        console.log(f,  item)
+        if(f.id===item.id)return true;
+      }
+    }
+    return false; 
+  }
 
   function handleDrop(e, currentFolder) {
     e.preventDefault();
     e.stopPropagation();
 
+    
     const item = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG"));
-    const itemOriginalFolder = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG_ORIGINAL_FOLDER"));
+    const itemMainFolder = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG_MAIN_FOLDER"));
 
+    // console.log(folders,'uuuuuuuuuuuuuuuuuuuuuuuuuuuuu')
+    // console.log('gggsggggggggg')
+    //check if this folder already has this item
+    // const itemMainFolderDetail= folders.items.find(f=>{return itemMainFolder===f.title});
+
+    
+    if(checkDupItem(currentFolder,item))
+    { console.log("Item already in same folder.")
+      window.alert('Item already in same folder.')
+      return ;
+    }
 
     // console.log("aa", currentFolder);
 
+    let dupFolder={...folders}
+    dupFolder= findAndDelete(dupFolder,item.id)
+    dupFolder= findAndAdd(dupFolder,currentFolder.id,item)
+    setFolders(dupFolder);
+
+
+    
     //add item to new folder.
-    currentFolder.items.push(item);
-    const dupFolderTree = { ...parent };
-    dupFolderTree.items[itemIndexInParent] = currentFolder;
-    setParent(dupFolderTree);
+
+
+
+
+
+    // currentFolder.items.push(item);
+    // const dupFolderTree = { ...parent };
+    // dupFolderTree.items[itemIndexInParent] = currentFolder;
+    // setParent(dupFolderTree);
+    // setFolders(folde rs)
  
-    //delete from old folder.
+    // delete from old folder.
+
+
     // const originalFolderTrace= folder_.items.find((f)=>{f.title===itemOriginalFolder.title})
     // findAndDelete(originalFolderTrace,item);
 
@@ -60,9 +135,9 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
     <>
       <div
         onDragOver={(e) => {
-          handleDragOver(e, folderData);
+          handleDragOver(e, currentFolder);
         }}
-        onDrop={(e) => handleDrop(e, folderData)}
+        onDrop={(e) => handleDrop(e, currentFolder)}
       >
         <div
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
@@ -87,20 +162,20 @@ export function Folder({ parent, setParent, itemIndexInParent }) {
           />
 
           <span style={{ fontFamily: "Georgia, serif", fontSize: 15 }}>
-            {`${folderData.title} (${folderData.items.length})`}
+            {`${currentFolder.title} (${currentFolder.items.length})`}
           </span>
         </div>
         <div style={{ marginTop: 3, paddingLeft: 30 }}>
           {!isCollapse &&
-            folderData.items.map((item, index) => {
+            currentFolder.items.map((item) => {
               return (
                 <div key={item.title}>
                   {item.type === "FOLDER" ? (
                     <div>
                       <Folder
-                        parent={folderData}
-                        setParent={setFolderData}
-                        itemIndexInParent={index}
+                        currentFolder_={item}
+                        folders={folders}
+                        setFolders={setFolders}
                       />
                     </div>
                   ) : (

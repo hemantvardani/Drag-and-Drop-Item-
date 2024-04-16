@@ -9,14 +9,14 @@ export function ItemsList(props) {
 
   function handleDragStart(e, item) {
     e.dataTransfer.setData("ITEM_ON_DRAG", JSON.stringify(item));
-    e.dataTransfer.setData("ITEM_ON_DRAG_ORIGINAL_FOLDER", JSON.stringify(selectedFolder));
+    e.dataTransfer.setData("ITEM_ON_DRAG_MAIN_FOLDER", JSON.stringify(selectedFolder));
     e.dataTransfer.setDragImage(dragImage, 10, 10);
     // console.log(JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
-    console.log(e);
+    // console.log(e);
   }
 
   function showFolderCorrespondingItems(folder_) {
-    console.log(folder_,"TT");
+    // console.log(folder_,"TT");
     let list = [];
     folder_.items.forEach((element) => {
       if (element.type === "FOLDER") {
@@ -30,12 +30,12 @@ export function ItemsList(props) {
 
 
   const selectedFolderDetails = folders.items.find((f) => {
-    console.log(selectedFolder,"ccc")
+    // console.log(selectedFolder,"ccc")
      return f.title === selectedFolder;
   });
-  console.log(selectedFolderDetails,"ww")
+  // console.log(selectedFolderDetails,"ww")
   const items_ = showFolderCorrespondingItems(selectedFolderDetails);
-  console.log(items_,"zz")
+  // console.log(items_,"zz")
 
   return (
     <>
@@ -52,7 +52,7 @@ export function ItemsList(props) {
         </div>
 
         {items_.map((item) => {
-          console.log(item, "hhhh121")
+          // console.log(item, "hhhh121")
           return (
             <div style={{ padding: 10, marginBottom: -10 }} key={item.title}>
               <Card>

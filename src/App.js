@@ -13,10 +13,17 @@ export const listContext = createContext();
 function App() {
   const [items, setItems] = useState([...listItems]);
   const [folders, setFolders] = useState({ ...listFolder });
-  console.log(folders,"qq")
+  // console.log(folders,"qq")
   const [selectedFolder, setSelectedFolder]= useState(folders.items[0].title);
  
-  useEffect(()=>{ console.log(selectedFolder,"qAAq")},[selectedFolder])
+  useEffect(()=>{
+    //  console.log(selectedFolder,"qAAq")
+},[selectedFolder])
+
+
+useEffect(() => {
+  console.log("yyy", folders);
+}, [folders]);
 
   return (
     <>
