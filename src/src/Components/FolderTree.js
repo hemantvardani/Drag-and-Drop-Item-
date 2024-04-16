@@ -1,19 +1,46 @@
 import { Folder } from "./Folder";
 import "./css.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 // import { Input } from "antd";
-// import { Input, Col, Row, Select, InputNumber, DatePicker, AutoComplete, Cascader } from 'antd';
+import { Input, Col, Row, Select, InputNumber, DatePicker, AutoComplete, Cascader } from 'antd';
 // const { Search } = Input;
+const { Option } = AutoComplete;
 
 // const InputGroup = Input.Group;
 // const { Option } = Select;
 
 export function FolderTree(props) {
   const { folders, setFolders, setSelectedFolder, selectedFolder } = props;
-
+  const [options, setOptions]= useState([]);
   useEffect(() => {
     console.log("zzzzz", folders);
   }, [folders]);
+
+  function handleSearch(folder_, searchString, optionsList){
+    console.log(searchString, folder_,'eee')
+    folder_.items.forEach((f)=>{
+      if((f.title.toLowerCase()).search(searchString.toLowerCase()) >=0){
+        optionsList.push(f);
+      }
+      if(f.type==='FOLDER'){
+        handleSearch(f,searchString,optionsList)
+      }
+    })
+  }
+  function handleSelect(){
+
+  }
+
+  // const options = [
+  //   { value: 'Apple' },
+  //   { value: 'Banana' },
+  //   { value: 'Cherry' },
+  //   { value: 'Date' },
+  //   { value: 'Elderberry' },
+  //   { value: 'Fig' },
+  //   { value: 'Grape' },
+  // ];
+
 
   return (
     <>
@@ -33,18 +60,20 @@ export function FolderTree(props) {
           style={{
             height: "25px",
             fontSize: 30,
-            marginBottom: 20,
+            marginBottom: 40,
             fontFamily: "Garamond, serif",
           }}
         >
-          {/* <Search
-            placeholder="Search Items"
-            onSearch={(value) => console.log(value)}
-            style={{ width: 200 }}
-          >
-            < Option value="Option2-1">Option2-1</Option>
-
-            </Search> */}
+        <AutoComplete
+      style={{ width: 300 }}
+      options={options.map(option => ({
+        value: option.title,
+      }))}
+      onSearch={(e)=>{let optionsList=[]; handleSearch(folders,e,optionsList); setOptions(optionsList); }}
+      onSelect={handleSelect}
+    >
+      <Input.Search placeholder="Search Items" />
+    </AutoComplete>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
