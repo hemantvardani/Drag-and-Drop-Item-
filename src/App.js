@@ -4,10 +4,8 @@ import { FolderTree } from "./src/Components/FolderTree";
 import { ItemsList } from "./src/Components/ItemsList";
 import { Header } from "./src/Layouts/Header";
 import { BASE_COLOR } from "./src/misc/colors";
- import { listFolder } from "./src/misc/listFolder";
+import { listFolder } from "./src/misc/listFolder";
 import { useState } from "react";
-
-// export const listContext = createContext();
 
 function App() {
   const [folders, setFolders] = useState({ ...listFolder });
@@ -18,7 +16,7 @@ function App() {
   //   console.log("yyy", folders);
   // }, [folders]);
 
-    return (
+  return (
     <>
       <div
         style={{

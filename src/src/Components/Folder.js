@@ -11,22 +11,6 @@ export function Folder({
   const [currentFolder, setCurrentFolder] = useState(currentFolder_);
   const [isCollapse, setIsCollapse] = useState(true);
 
-  // useEffect(() => {
-  //   const dup = { ...parent };
-  //   dup.items[itemIndexInParent] = folderData;
-  //   setParent(dup);
-  // }, [folderData]);
-
-  useEffect(() => {
-    // console.log(currentFolder_, "ppp");
-    setCurrentFolder(currentFolder_);
-  }, [currentFolder_]);
-
-  useEffect(() => {
-    // console.log(searchBoxSelection, "gggg");
-    if (searchBoxSelection === currentFolder.id) setIsCollapse(false);
-  }, [searchBoxSelection]);
-
   function handleDragOver(e, folder) {
     e.preventDefault();
     e.stopPropagation();
@@ -69,10 +53,10 @@ export function Folder({
   }
 
   function checkDupItem(itemFolder, item) {
-    console.log(itemFolder, "ll");
+    // console.log(itemFolder, "ll");
     for (let f of itemFolder.items) {
       if (f.type === "ITEM") {
-        console.log(f, item);
+        // console.log(f, item);
         if (f.id === item.id) return true;
       }
     }
@@ -84,13 +68,10 @@ export function Folder({
     e.stopPropagation();
 
     const item = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG"));
-    const itemMainFolder = JSON.parse(
-      e.dataTransfer.getData("ITEM_ON_DRAG_MAIN_FOLDER")
-    );
 
     if (checkDupItem(currentFolder, item)) {
-      console.log("Item already in same folder.");
-      window.alert("Item already in same folder.");
+      console.log("Item is already in same folder.");
+      window.alert("Item is already in same folder.");
       return;
     }
 
@@ -101,9 +82,17 @@ export function Folder({
     dupFolder = findAndAdd(dupFolder, currentFolder.id, item);
     setFolders(dupFolder);
 
-    //add item to new folder.
-    // console.log("lo", JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
   }
+
+  useEffect(() => {
+    // console.log(currentFolder_, "ppp");
+    setCurrentFolder(currentFolder_);
+  }, [currentFolder_]);
+
+  useEffect(() => {
+    // console.log(searchBoxSelection, "gggg");
+    if (searchBoxSelection === currentFolder.id) setIsCollapse(false);
+  }, [searchBoxSelection]);
 
   useEffect(() => {
     if (searchBoxSelection) {

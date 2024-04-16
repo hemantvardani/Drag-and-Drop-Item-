@@ -5,7 +5,7 @@ export function ItemsList(props) {
   const { folders, selectedFolder } = props;
 
   const dragImage = new Image();
-  dragImage.src = require("../Assests/icons8-file-94.png"); // specify the path to your image
+  dragImage.src = require("../Assests/icons8-file-94.png");
 
   function handleDragStart(e, item) {
     e.dataTransfer.setData("ITEM_ON_DRAG", JSON.stringify(item));

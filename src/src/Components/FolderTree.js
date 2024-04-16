@@ -1,6 +1,7 @@
 import { Folder } from "./Folder";
 import { useEffect, useState } from "react";
 import { Input, AutoComplete } from "antd";
+import { WHITE_COLOR, UNSELECTED_COLOR } from "../misc/colors";
 
 export function FolderTree(props) {
   const { folders, setFolders, setSelectedFolder, selectedFolder } = props;
@@ -69,7 +70,7 @@ export function FolderTree(props) {
             }}
             onSelect={(e, id) => handleSelect(id)}
           >
-            <Input.Search placeholder="Search Items" />
+            <Input.Search placeholder="Search Items / Folders..." />
           </AutoComplete>
         </div>
 
@@ -79,7 +80,7 @@ export function FolderTree(props) {
               <div
                 style={{
                   background:
-                    selectedFolder === folder.title ? "#ffffff" : "#fafafa",
+                    selectedFolder === folder.title ? WHITE_COLOR : UNSELECTED_COLOR,
                   borderRadius: "15px",
                   marginBottom: "15px",
                   padding: "10px",
