@@ -9,7 +9,10 @@ export function ItemsList(props) {
 
   function handleDragStart(e, item) {
     e.dataTransfer.setData("ITEM_ON_DRAG", JSON.stringify(item));
-    e.dataTransfer.setData("ITEM_ON_DRAG_MAIN_FOLDER", JSON.stringify(selectedFolder));
+    e.dataTransfer.setData(
+      "ITEM_ON_DRAG_MAIN_FOLDER",
+      JSON.stringify(selectedFolder)
+    );
     e.dataTransfer.setDragImage(dragImage, 10, 10);
     // console.log(JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
     // console.log(e);
@@ -28,14 +31,11 @@ export function ItemsList(props) {
     return list;
   }
 
-
   const selectedFolderDetails = folders.items.find((f) => {
     // console.log(selectedFolder,"ccc")
-     return f.title === selectedFolder;
+    return f.title === selectedFolder;
   });
-  // console.log(selectedFolderDetails,"ww")
   const items_ = showFolderCorrespondingItems(selectedFolderDetails);
-  // console.log(items_,"zz")
 
   return (
     <>
@@ -43,7 +43,7 @@ export function ItemsList(props) {
         <div
           style={{
             height: "25px",
-            fontWeight:'bolder',
+            fontWeight: "bolder",
             fontSize: 30,
             marginBottom: 10,
             fontFamily: "Garamond, serif",
@@ -53,7 +53,6 @@ export function ItemsList(props) {
         </div>
 
         {items_.map((item) => {
-          // console.log(item, "hhhh121")
           return (
             <div style={{ padding: 10, marginBottom: -10 }} key={item.title}>
               <Card>

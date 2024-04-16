@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { FaAnglesRight, FaAnglesDown, FaS } from "react-icons/fa6";
-// import { listContext } from "../../App";
+import { FaAnglesRight, FaAnglesDown } from "react-icons/fa6";
+import { HIGHLIGHT_COLOR } from "./../misc/colors";
 
-export function Folder({ folders , setFolders , currentFolder_, searchBoxSelection }) {
-  const [currentFolder,setCurrentFolder] = useState(currentFolder_)
+export function Folder({
+  folders,
+  setFolders,
+  currentFolder_,
+  searchBoxSelection,
+}) {
+  const [currentFolder, setCurrentFolder] = useState(currentFolder_);
   const [isCollapse, setIsCollapse] = useState(true);
-  // const [folderData, setFolderData] = useState(parent.items[itemIndexInParent]);
-
-  // const { items, setItems } = useContext(listContext);
 
   // useEffect(() => {
   //   const dup = { ...parent };
@@ -15,17 +17,15 @@ export function Folder({ folders , setFolders , currentFolder_, searchBoxSelecti
   //   setParent(dup);
   // }, [folderData]);
 
-  useEffect(()=>{
-    console.log(currentFolder_,"ppp")
-    setCurrentFolder(currentFolder_)
-  },[currentFolder_] )
+  useEffect(() => {
+    // console.log(currentFolder_, "ppp");
+    setCurrentFolder(currentFolder_);
+  }, [currentFolder_]);
 
-
-  useEffect(()=>
-  {
-    console.log(searchBoxSelection,'gggg')
-    if(searchBoxSelection===currentFolder.id) setIsCollapse(false);
-  },[searchBoxSelection])
+  useEffect(() => {
+    // console.log(searchBoxSelection, "gggg");
+    if (searchBoxSelection === currentFolder.id) setIsCollapse(false);
+  }, [searchBoxSelection]);
 
   function handleDragOver(e, folder) {
     e.preventDefault();
@@ -34,116 +34,82 @@ export function Folder({ folders , setFolders , currentFolder_, searchBoxSelecti
     if (isCollapse) setIsCollapse(false);
   }
 
-  function findAndDelete(folder,id){
-    const items=[]
-    folder.items.forEach(element => {
-
-      if(element.type==='FOLDER')
-      {
-         items.push( findAndDelete(element,id))
-      }
-      else{
-        if(element.id!==id){
-          items.push(element)
+  function findAndDelete(folder, id) {
+    const items = [];
+    folder.items.forEach((element) => {
+      if (element.type === "FOLDER") {
+        items.push(findAndDelete(element, id));
+      } else {
+        if (element.id !== id) {
+          items.push(element);
         }
       }
     });
 
-
-    folder.items=items;
+    folder.items = items;
     return folder;
   }
 
-  function findAndAdd(folder,id,item)
-  {
-    
-    if(folder.id===id){
+  function findAndAdd(folder, id, item) {
+    if (folder.id === id) {
       folder.items.push(item);
       return folder;
     }
 
-    const items=[];
-    folder.items.forEach((element)=>{
-      if(element.type === 'FOLDER'){
-         items.push(findAndAdd(element,id,item))
+    const items = [];
+    folder.items.forEach((element) => {
+      if (element.type === "FOLDER") {
+        items.push(findAndAdd(element, id, item));
+      } else {
+        items.push(element);
       }
-      else{
-        items.push(element)
-      }
-    })
-    folder.items=items;
+    });
+    folder.items = items;
     return folder;
   }
 
-  function checkDupItem(itemFolder,item)
-  {
-    console.log(itemFolder,"ll")
-    for(let f of itemFolder.items){
-      if(f.type==='ITEM'){ 
-        console.log(f,  item)
-        if(f.id===item.id)return true;
+  function checkDupItem(itemFolder, item) {
+    console.log(itemFolder, "ll");
+    for (let f of itemFolder.items) {
+      if (f.type === "ITEM") {
+        console.log(f, item);
+        if (f.id === item.id) return true;
       }
     }
-    return false; 
+    return false;
   }
 
   function handleDrop(e, currentFolder) {
     e.preventDefault();
     e.stopPropagation();
 
-    
     const item = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG"));
-    const itemMainFolder = JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG_MAIN_FOLDER"));
+    const itemMainFolder = JSON.parse(
+      e.dataTransfer.getData("ITEM_ON_DRAG_MAIN_FOLDER")
+    );
 
-    // console.log(folders,'uuuuuuuuuuuuuuuuuuuuuuuuuuuuu')
-    // console.log('gggsggggggggg')
-    //check if this folder already has this item
-    // const itemMainFolderDetail= folders.items.find(f=>{return itemMainFolder===f.title});
-
-    
-    if(checkDupItem(currentFolder,item))
-    { console.log("Item already in same folder.")
-      window.alert('Item already in same folder.')
-      return ;
+    if (checkDupItem(currentFolder, item)) {
+      console.log("Item already in same folder.");
+      window.alert("Item already in same folder.");
+      return;
     }
 
     // console.log("aa", currentFolder);
 
-    let dupFolder={...folders}
-    dupFolder= findAndDelete(dupFolder,item.id)
-    dupFolder= findAndAdd(dupFolder,currentFolder.id,item)
+    let dupFolder = { ...folders };
+    dupFolder = findAndDelete(dupFolder, item.id);
+    dupFolder = findAndAdd(dupFolder, currentFolder.id, item);
     setFolders(dupFolder);
 
-
-    
     //add item to new folder.
-
-
-
-
-
-    // currentFolder.items.push(item);
-    // const dupFolderTree = { ...parent };
-    // dupFolderTree.items[itemIndexInParent] = currentFolder;
-    // setParent(dupFolderTree);
-    // setFolders(folde rs)
- 
-    // delete from old folder.
-
-
-    // const originalFolderTrace= folder_.items.find((f)=>{f.title===itemOriginalFolder.title})
-    // findAndDelete(originalFolderTrace,item);
-
-
     // console.log("lo", JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
   }
 
-  useEffect(()=>{
-    if(searchBoxSelection){
+  useEffect(() => {
+    if (searchBoxSelection) {
       setIsCollapse(false);
     }
-
-  },[searchBoxSelection])
+  }, [searchBoxSelection]);
 
   return (
     <>
@@ -152,7 +118,11 @@ export function Folder({ folders , setFolders , currentFolder_, searchBoxSelecti
           handleDragOver(e, currentFolder);
         }}
         onDrop={(e) => handleDrop(e, currentFolder)}
-        style={(searchBoxSelection===currentFolder.id  ) ? {background:'#fff8e1'}:{}}
+        style={
+          searchBoxSelection === currentFolder.id
+            ? { background: HIGHLIGHT_COLOR }
+            : {}
+        }
       >
         <div
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
@@ -202,7 +172,8 @@ export function Folder({ folders , setFolders , currentFolder_, searchBoxSelecti
                         fontSize: 15,
                         display: "flex",
                         alignItems: "center",
-                        background: (searchBoxSelection===item.id  ) ? '#ffecb3':null
+                        background:
+                          searchBoxSelection === item.id ? HIGHLIGHT_COLOR : null,
                       }}
                     >
                       <span style={{ marginRight: 2 }}>
