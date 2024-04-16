@@ -43,6 +43,7 @@ export function ItemsList(props) {
         <div
           style={{
             height: "25px",
+            fontWeight:'bolder',
             fontSize: 30,
             marginBottom: 10,
             fontFamily: "Garamond, serif",
