@@ -6,13 +6,24 @@ import { Header } from "./src/Layouts/Header";
 import { BASE_COLOR } from "./src/misc/colors";
 import { listItems } from "./src/misc/listItems";
 import { listFolder } from "./src/misc/listFolder";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const listContext = createContext();
 
 function App() {
   const [items, setItems] = useState([...listItems]);
   const [folders, setFolders] = useState({ ...listFolder });
+  // console.log(folders,"qq")
+  const [selectedFolder, setSelectedFolder]= useState(folders.items[0].title);
+ 
+  useEffect(()=>{
+    //  console.log(selectedFolder,"qAAq")
+},[selectedFolder])
+
+
+useEffect(() => {
+  console.log("yyy", folders);
+}, [folders]);
 
   return (
     <>
@@ -34,11 +45,11 @@ function App() {
             >
               <Grid item={true} xs={10} md={4}>
                 <div style={{ paddingLeft: 40 }}>
-                  <FolderTree folders={folders} setFolders={setFolders} />
+                  <FolderTree folders={folders} setFolders={setFolders} setSelectedFolder={setSelectedFolder} selectedFolder={selectedFolder} />
                 </div>
               </Grid>
               <Grid item={true} xs={10} md={6}>
-                <ItemsList items={items} setItems={setItems} />
+                <ItemsList  folders={folders} selectedFolder={selectedFolder} />
               </Grid>
             </Grid>
           </div>
