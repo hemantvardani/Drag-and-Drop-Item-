@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { FaAnglesRight, FaAnglesDown } from "react-icons/fa6";
+import { FaAnglesRight, FaAnglesDown, FaS } from "react-icons/fa6";
 // import { listContext } from "../../App";
 
-export function Folder({ folders , setFolders , currentFolder_ }) {
+export function Folder({ folders , setFolders , currentFolder_, searchBoxSelection }) {
   const [currentFolder,setCurrentFolder] = useState(currentFolder_)
   const [isCollapse, setIsCollapse] = useState(true);
   // const [folderData, setFolderData] = useState(parent.items[itemIndexInParent]);
@@ -19,6 +19,13 @@ export function Folder({ folders , setFolders , currentFolder_ }) {
     console.log(currentFolder_,"ppp")
     setCurrentFolder(currentFolder_)
   },[currentFolder_] )
+
+
+  useEffect(()=>
+  {
+    console.log(searchBoxSelection,'gggg')
+    if(searchBoxSelection===currentFolder.id) setIsCollapse(false);
+  },[searchBoxSelection])
 
   function handleDragOver(e, folder) {
     e.preventDefault();
@@ -131,6 +138,13 @@ export function Folder({ folders , setFolders , currentFolder_ }) {
     // console.log("lo", JSON.parse(e.dataTransfer.getData("ITEM_ON_DRAG")));
   }
 
+  useEffect(()=>{
+    if(searchBoxSelection){
+      setIsCollapse(false);
+    }
+
+  },[searchBoxSelection])
+
   return (
     <>
       <div
@@ -138,6 +152,7 @@ export function Folder({ folders , setFolders , currentFolder_ }) {
           handleDragOver(e, currentFolder);
         }}
         onDrop={(e) => handleDrop(e, currentFolder)}
+        style={(searchBoxSelection===currentFolder.id  ) ? {background:'#fff8e1'}:{}}
       >
         <div
           style={{ display: "flex", alignItems: "center", gap: "5px" }}
@@ -176,6 +191,7 @@ export function Folder({ folders , setFolders , currentFolder_ }) {
                         currentFolder_={item}
                         folders={folders}
                         setFolders={setFolders}
+                        searchBoxSelection={searchBoxSelection}
                       />
                     </div>
                   ) : (
@@ -186,6 +202,7 @@ export function Folder({ folders , setFolders , currentFolder_ }) {
                         fontSize: 15,
                         display: "flex",
                         alignItems: "center",
+                        background: (searchBoxSelection===item.id  ) ? '#ffecb3':null
                       }}
                     >
                       <span style={{ marginRight: 2 }}>
