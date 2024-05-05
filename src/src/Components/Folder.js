@@ -89,10 +89,6 @@ export function Folder({
     setCurrentFolder(currentFolder_);
   }, [currentFolder_]);
 
-  useEffect(() => {
-    // console.log(searchBoxSelection, "gggg");
-    if (searchBoxSelection === currentFolder.id) setIsCollapse(false);
-  }, [searchBoxSelection]);
 
   useEffect(() => {
     if (searchBoxSelection) {

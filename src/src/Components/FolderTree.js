@@ -16,7 +16,7 @@ export function FolderTree(props) {
     // console.log(searchString, folder_,'eee')
     folder_.items.forEach((f) => {
       if (f.title.toLowerCase().search(searchString.toLowerCase()) >= 0) {
-        optionsList.push(f);
+        optionsList.push({title:f.title,id:f.id});
       }
       if (f.type === "FOLDER") {
         handleSearch(f, searchString, optionsList);
@@ -68,7 +68,7 @@ export function FolderTree(props) {
               handleSearch(folders, e, optionsList);
               setOptions(optionsList);
             }}
-            onSelect={(e, id) => handleSelect(id)}
+            onSelect={(e, option) => handleSelect(option)}
           >
             <Input.Search placeholder="Search Items / Folders..." />
           </AutoComplete>
